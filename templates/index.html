@@ -1,0 +1,53 @@
+{% extends 'master.html' %}
+
+{% block head %}
+<title>Reservations</title>
+{% endblock %}
+
+{% block body %}
+<br>
+    <h1 style="text-align: center">DF Restaurant Reservations</h1> 
+    <br>
+    {% if reservations|length < 1 %}
+    <h4 style="text-align: center">There are no reservations at this time. Create one below!</h4>
+    {% else %}
+
+    
+    <table>
+        <tr>
+            <th>name</th>
+            <th>Quantity</th>
+            <th>Time</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for res in reservations %}
+            <tr>
+                <td>{{ res.name }}</td>
+                <td>{{ res.quantity }}</td>
+                <td>{{ res.time }}</td>
+                <td>{{ res.date }}</td>
+                <td>
+                    <a href="/delete/{{res.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{res.id}}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}    
+    </table>
+    {% endif %}
+    <br>
+    {% if reservations|length > 9  %}
+    <h4 style="text-align: center">We cannot make any more reservations!</h4>
+    {% else %}
+    <form action="/" method="POST" style="text-align:center">
+        Name: <input type="text" name="name" id="name">
+        Quantity (2-8): <input type="number" name="quantity" id="quantity" min="2" max="8">
+        Time: <input type="time" name="time" id="time">
+        Date: <input type="date" name="date" id="date" min="2022-08-01">
+
+        <input type="submit" value="New Reservation">
+    </form>
+    {% endif %}
+
+{% endblock %}
